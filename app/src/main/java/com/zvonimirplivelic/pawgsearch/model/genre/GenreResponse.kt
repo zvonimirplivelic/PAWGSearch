@@ -1,8 +1,8 @@
 package com.zvonimirplivelic.pawgsearch.model.genre
 
-data class GenreListResponse(
+data class GenreResponse(
     val count: Int,
     val next: Any,
     val previous: Any,
-    val genreListResults: List<GenreListResult>
+    val genre: List<Genre>
 )

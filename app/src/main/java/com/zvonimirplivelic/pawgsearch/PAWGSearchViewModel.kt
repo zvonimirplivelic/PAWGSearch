@@ -4,19 +4,15 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
-import android.provider.ContactsContract
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.zvonimirplivelic.pawgsearch.model.genre.GenreListResponse
-import com.zvonimirplivelic.pawgsearch.util.Constants.API_KEY
+import com.zvonimirplivelic.pawgsearch.model.genre.GenreResponse
 import com.zvonimirplivelic.pawgsearch.util.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
-import java.util.*
 
 
 class PAWGSearchViewModel(
@@ -25,8 +21,8 @@ class PAWGSearchViewModel(
 
     private val pawgSearchRepository: PAWGSearchRepository = PAWGSearchRepository()
 
-    private val genreList: MutableLiveData<Resource<GenreListResponse>> = MutableLiveData()
-    var genreListResponse: GenreListResponse? = null
+    val genreList: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
+    var genreResponse: GenreResponse? = null
 
     fun getGenreList() = viewModelScope.launch {
         safeGenreListCall()
@@ -50,13 +46,13 @@ class PAWGSearchViewModel(
         }
     }
 
-    private fun handleRandomFactResponse(response: Response<GenreListResponse>): Resource<GenreListResponse> {
+    private fun handleRandomFactResponse(response: Response<GenreResponse>): Resource<GenreResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
 
-                genreListResponse = resultResponse
+                genreResponse = resultResponse
 
-                return Resource.Success(genreListResponse ?: resultResponse)
+                return Resource.Success(genreResponse ?: resultResponse)
             }
         }
 

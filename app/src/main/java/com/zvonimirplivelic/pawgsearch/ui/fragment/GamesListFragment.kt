@@ -1,4 +1,4 @@
-package com.zvonimirplivelic.pawgsearch.ui
+package com.zvonimirplivelic.pawgsearch.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

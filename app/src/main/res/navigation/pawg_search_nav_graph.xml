@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/genreSelectFragment"
-        android:name="com.zvonimirplivelic.pawgsearch.ui.GenreSelectFragment"
+        android:name="com.zvonimirplivelic.pawgsearch.ui.fragment.GenreSelectFragment"
         android:label="fragment_genre_select"
         tools:layout="@layout/fragment_genre_select" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/gameDetailsFragment"
-        android:name="com.zvonimirplivelic.pawgsearch.ui.GameDetailsFragment"
+        android:name="com.zvonimirplivelic.pawgsearch.ui.fragment.GameDetailsFragment"
         android:label="fragment_game_details"
         tools:layout="@layout/fragment_game_details" />
     <fragment
         android:id="@+id/gamesListFragment"
-        android:name="com.zvonimirplivelic.pawgsearch.ui.GamesListFragment"
+        android:name="com.zvonimirplivelic.pawgsearch.ui.fragment.GamesListFragment"
         android:label="fragment_games_list"
         tools:layout="@layout/fragment_games_list" >
         <action
