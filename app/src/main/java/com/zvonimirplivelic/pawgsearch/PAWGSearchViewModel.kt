@@ -36,7 +36,7 @@ class PAWGSearchViewModel(
         genreList.postValue(Resource.Loading())
         try {
             if (hasInternetConnection()) {
-                val response = pawgSearchRepository.getGenreList(API_KEY)
+                val response = pawgSearchRepository.getGenreList()
                 delay(444L)
                 genreList.postValue(handleRandomFactResponse(response))
             } else {
