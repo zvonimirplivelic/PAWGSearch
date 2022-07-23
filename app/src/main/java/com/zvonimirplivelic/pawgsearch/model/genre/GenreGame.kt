@@ -1,6 +1,6 @@
 package com.zvonimirplivelic.pawgsearch.model.genre
 
-data class GenreGameList(
+data class GenreGame(
     val added: Int,
     val id: Int,
     val name: String,

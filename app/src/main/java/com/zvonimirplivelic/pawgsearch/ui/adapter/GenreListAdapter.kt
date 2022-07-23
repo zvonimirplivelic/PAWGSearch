@@ -10,30 +10,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.pawgsearch.R
 import com.zvonimirplivelic.pawgsearch.model.genre.Genre
+import com.zvonimirplivelic.pawgsearch.model.genre.GenreResponse
+import com.zvonimirplivelic.pawgsearch.util.DiffUtilExtension.autoNotify
+import kotlin.properties.Delegates
 
 class GenreListAdapter :
     RecyclerView.Adapter<GenreListAdapter.GenreListItemViewHolder>() {
 
+    private var genreList: List<Genre>
+            by Delegates.observable(emptyList()) { _, oldList, newList ->
+                autoNotify(oldList, newList) { o, n -> o.id == n.id }
+            }
+
     inner class GenreListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-    private val diffCallback =
-        object : DiffUtil.ItemCallback<Genre>() {
-            override fun areItemsTheSame(
-                oldItem: Genre,
-                newItem: Genre
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(
-                oldItem: Genre,
-                newItem: Genre
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
-
-    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreListItemViewHolder {
         return GenreListItemViewHolder(
@@ -46,7 +35,7 @@ class GenreListAdapter :
     }
 
     override fun onBindViewHolder(holder: GenreListItemViewHolder, position: Int) {
-        val genre = differ.currentList[position]
+        val genre = genreList[position]
 
         holder.itemView.apply {
             val tvGenreName: TextView = findViewById(R.id.tv_genre_name)
@@ -56,5 +45,10 @@ class GenreListAdapter :
         }
     }
 
-    override fun getItemCount(): Int = differ.currentList.size
+    override fun getItemCount(): Int = genreList.size
+
+    fun setData(genreList: List<Genre>) {
+        this.genreList = genreList
+        notifyDataSetChanged()
+    }
 }

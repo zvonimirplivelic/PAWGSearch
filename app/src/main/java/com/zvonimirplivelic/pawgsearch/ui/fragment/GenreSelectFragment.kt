@@ -16,6 +16,7 @@ import com.zvonimirplivelic.pawgsearch.PAWGSearchViewModel
 import com.zvonimirplivelic.pawgsearch.R
 import com.zvonimirplivelic.pawgsearch.ui.adapter.GenreListAdapter
 import com.zvonimirplivelic.pawgsearch.util.Resource
+import timber.log.Timber
 
 
 class GenreSelectFragment : Fragment() {
@@ -54,8 +55,9 @@ class GenreSelectFragment : Fragment() {
                 is Resource.Success -> {
                     progressBar.isVisible = false
 
-                    response.data?.let { genreList ->
-                        genreListAdapter.differ.submitList(genreList.genre)
+                    response.data?.let { genreListResponse ->
+                        Timber.d("GList: $genreListResponse")
+                        genreListAdapter.setData(genreListResponse.genreList)
                     }
                 }
 
