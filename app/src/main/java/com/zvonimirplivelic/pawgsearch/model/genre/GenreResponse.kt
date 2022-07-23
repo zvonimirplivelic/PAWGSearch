@@ -1,5 +1,6 @@
 package com.zvonimirplivelic.pawgsearch.model.genre
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 data class GenreResponse(
