@@ -5,12 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.pawgsearch.R
-import com.zvonimirplivelic.pawgsearch.model.genre.Genre
-import com.zvonimirplivelic.pawgsearch.model.genre.GenreResponse
+import com.zvonimirplivelic.pawgsearch.remote.model.genre.Genre
 import com.zvonimirplivelic.pawgsearch.util.DiffUtilExtension.autoNotify
 import kotlin.properties.Delegates
 

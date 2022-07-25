@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.zvonimirplivelic.pawgsearch.model.genre.GenreResponse
+import com.zvonimirplivelic.pawgsearch.remote.model.genre.Genre
 import com.zvonimirplivelic.pawgsearch.util.Constants.DATABASE_NAME
 
 
 @Database(
-    entities = [GenreResponse::class],
+    entities = [Genre::class],
     version = 1,
     exportSchema = false
 )

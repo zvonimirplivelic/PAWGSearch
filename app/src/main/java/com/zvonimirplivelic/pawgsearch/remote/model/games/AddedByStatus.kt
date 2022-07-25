@@ -1,5 +1,8 @@
-package com.zvonimirplivelic.pawgsearch.model.games
+package com.zvonimirplivelic.pawgsearch.remote.model.games
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class AddedByStatus(
     val beaten: Int,
     val dropped: Int,

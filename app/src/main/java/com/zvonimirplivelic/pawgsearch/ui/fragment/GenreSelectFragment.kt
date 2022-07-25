@@ -1,27 +1,30 @@
 package com.zvonimirplivelic.pawgsearch.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.zvonimirplivelic.pawgsearch.PAWGSearchViewModel
-import com.zvonimirplivelic.pawgsearch.R
+import com.zvonimirplivelic.pawgsearch.*
+import com.zvonimirplivelic.pawgsearch.db.PAWGSearchDatabase
 import com.zvonimirplivelic.pawgsearch.ui.adapter.GenreListAdapter
-import com.zvonimirplivelic.pawgsearch.util.Resource
-import timber.log.Timber
+import kotlinx.coroutines.launch
 
 
 class GenreSelectFragment : Fragment() {
 
     private lateinit var viewModel: PAWGSearchViewModel
+    private lateinit var viewModelFactory: PAWGSearchViewModelFactory
+
+    private lateinit var pawgSearchRepository: PAWGSearchRepository
+
     private lateinit var genreListAdapter: GenreListAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -34,7 +37,7 @@ class GenreSelectFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_genre_select, container, false)
 
-        viewModel = ViewModelProvider(this)[PAWGSearchViewModel::class.java]
+
 
         recyclerView = view.findViewById(R.id.rv_genre_list)
         progressBar = view.findViewById(R.id.progress_bar)
@@ -47,34 +50,12 @@ class GenreSelectFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
         }
 
-        viewModel.getGenreList()
+        lifecycleScope.launch {
+            viewModel.genreGenerate()
+        }
 
-        viewModel.genreList.observe(viewLifecycleOwner) { response ->
-
-            when (response) {
-                is Resource.Success -> {
-                    progressBar.isVisible = false
-
-                    response.data?.let { genreListResponse ->
-                        Timber.d("GList: $genreListResponse")
-                        genreListAdapter.setData(genreListResponse.genreList)
-                    }
-                }
-
-                is Resource.Error -> {
-                    progressBar.isVisible = false
-
-                    response.message?.let { message ->
-                        Toast.makeText(activity, "An error occurred: $message", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                }
-
-                is Resource.Loading -> {
-                    progressBar.isVisible = true
-                }
-            }
-
+        viewModel.displayGenres.observe(viewLifecycleOwner) { genreList ->
+            genreListAdapter.setData(genreList)
         }
 
 
