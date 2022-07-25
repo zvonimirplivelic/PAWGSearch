@@ -1,7 +1,8 @@
-package com.zvonimirplivelic.pawgsearch
+package com.zvonimirplivelic.pawgsearch.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import com.zvonimirplivelic.pawgsearch.db.DBGenre
 import com.zvonimirplivelic.pawgsearch.db.PAWGSearchDatabase
 import com.zvonimirplivelic.pawgsearch.db.asDomainModel
 import com.zvonimirplivelic.pawgsearch.domain.PAWGGenre
@@ -13,16 +14,21 @@ import kotlinx.coroutines.withContext
 
 
 class PAWGSearchRepository(private val database: PAWGSearchDatabase) {
+
     val genres: LiveData<List<PAWGGenre>> =
-        Transformations.map(database.getPAWGSearchDao().getGenres()) {
+        Transformations.map(database.pawgSearchDao.getGenres()) {
             it.asDomainModel()
         }
+
 
     suspend fun refreshGenres() {
         withContext(Dispatchers.IO) {
             val genres = RetrofitInstance.api.getRemoteGenreList(API_KEY)
-            database.getPAWGSearchDao().insertGenres(genres.asDatabaseModel())
+            database.pawgSearchDao.insertGenres(genres.asDatabaseModel())
         }
     }
+
+    suspend fun storeSelectedGenres(genres: List<DBGenre>) =
+        database.pawgSearchDao.insertGenres(genres)
 
 }

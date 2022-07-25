@@ -8,8 +8,8 @@ import com.zvonimirplivelic.pawgsearch.domain.PAWGGenre
 @JsonClass(generateAdapter = true)
 data class GenreResponse(
     val count: Int,
-    val next: Any,
-    val previous: Any,
+    val next: Any?,
+    val previous: Any?,
     val results: List<Genre>
 )
 

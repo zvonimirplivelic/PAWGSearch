@@ -9,29 +9,26 @@ import com.zvonimirplivelic.pawgsearch.util.Constants.DATABASE_NAME
 
 
 @Database(
-    entities = [Genre::class],
+    entities = [DBGenre::class],
     version = 1,
     exportSchema = false
 )
 abstract class PAWGSearchDatabase : RoomDatabase() {
-    abstract fun getPAWGSearchDao(): PAWGSearchDao
 
-    companion object {
-        @Volatile
-        private var INSTANCE: PAWGSearchDatabase? = null
-        private val LOCK = Any()
+    abstract val pawgSearchDao: PAWGSearchDao
+}
 
-        operator fun invoke(context: Context) = INSTANCE ?: synchronized(LOCK) {
-            INSTANCE ?: createDatabase(context).also {
-                INSTANCE = it
-            }
-        }
+private lateinit var INSTANCE: PAWGSearchDatabase
 
-        private fun createDatabase(context: Context) =
-            Room.databaseBuilder(
+fun getDatabase(context: Context): PAWGSearchDatabase {
+    synchronized(PAWGSearchDatabase::class.java) {
+        if (!::INSTANCE.isInitialized) {
+            INSTANCE = Room.databaseBuilder(
                 context.applicationContext,
                 PAWGSearchDatabase::class.java,
                 DATABASE_NAME
-            ).fallbackToDestructiveMigration().build()
+            ).build()
+        }
     }
+    return INSTANCE
 }

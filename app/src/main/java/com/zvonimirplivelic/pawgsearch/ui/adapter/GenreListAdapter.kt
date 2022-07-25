@@ -7,6 +7,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.pawgsearch.R
+import com.zvonimirplivelic.pawgsearch.db.DBGenre
+import com.zvonimirplivelic.pawgsearch.domain.PAWGGenre
 import com.zvonimirplivelic.pawgsearch.remote.model.genre.Genre
 import com.zvonimirplivelic.pawgsearch.util.DiffUtilExtension.autoNotify
 import kotlin.properties.Delegates
@@ -14,7 +16,7 @@ import kotlin.properties.Delegates
 class GenreListAdapter :
     RecyclerView.Adapter<GenreListAdapter.GenreListItemViewHolder>() {
 
-    private var genreList: List<Genre>
+    private var genreList: List<PAWGGenre>
             by Delegates.observable(emptyList()) { _, oldList, newList ->
                 autoNotify(oldList, newList) { o, n -> o.id == n.id }
             }
@@ -39,12 +41,13 @@ class GenreListAdapter :
             val cbGenreSelect: CheckBox = findViewById(R.id.cb_genre_select)
 
             tvGenreName.text = genre.name
+            cbGenreSelect.isChecked = genre.isSelected!!
         }
     }
 
     override fun getItemCount(): Int = genreList.size
 
-    fun setData(genreList: List<Genre>) {
+    fun setData(genreList: List<PAWGGenre>) {
         this.genreList = genreList
         notifyDataSetChanged()
     }

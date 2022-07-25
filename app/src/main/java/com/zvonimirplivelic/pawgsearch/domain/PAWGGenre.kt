@@ -6,5 +6,5 @@ data class PAWGGenre(
     var id: Int,
     var name: String,
     var slug: String,
-    var isSelected: Boolean? = false
+    var isSelected: Boolean?
 )
