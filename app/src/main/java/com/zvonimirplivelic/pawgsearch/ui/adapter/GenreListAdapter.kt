@@ -13,7 +13,9 @@ import com.zvonimirplivelic.pawgsearch.remote.model.genre.Genre
 import com.zvonimirplivelic.pawgsearch.util.DiffUtilExtension.autoNotify
 import kotlin.properties.Delegates
 
-class GenreListAdapter :
+class GenreListAdapter(
+    val handler: GenreListAdapter.CheckBoxCallback
+) :
     RecyclerView.Adapter<GenreListAdapter.GenreListItemViewHolder>() {
 
     private var genreList: List<PAWGGenre>
@@ -41,7 +43,10 @@ class GenreListAdapter :
             val cbGenreSelect: CheckBox = findViewById(R.id.cb_genre_select)
 
             tvGenreName.text = genre.name
-            cbGenreSelect.isChecked = genre.isSelected!!
+
+            cbGenreSelect.setOnCheckedChangeListener { compoundButton, isChecked ->
+                genre.isSelected = isChecked
+            }
         }
     }
 
@@ -50,5 +55,13 @@ class GenreListAdapter :
     fun setData(genreList: List<PAWGGenre>) {
         this.genreList = genreList
         notifyDataSetChanged()
+    }
+
+    private suspend fun handleGenreData(genreList: List<PAWGGenre>) {
+        handler.handleGenreData(genreList)
+    }
+
+    interface CheckBoxCallback {
+        suspend fun handleGenreData(genreData: List<PAWGGenre>)
     }
 }

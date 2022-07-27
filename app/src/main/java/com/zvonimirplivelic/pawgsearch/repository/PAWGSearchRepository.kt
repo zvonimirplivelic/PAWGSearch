@@ -28,7 +28,10 @@ class PAWGSearchRepository(private val database: PAWGSearchDatabase) {
         }
     }
 
-    suspend fun storeSelectedGenres(genres: List<DBGenre>) =
-        database.pawgSearchDao.insertGenres(genres)
+    suspend fun storeSelectedGenres(genres: List<DBGenre>) {
+        withContext(Dispatchers.IO) {
+            database.pawgSearchDao.insertGenres(genres)
+        }
+    }
 
 }

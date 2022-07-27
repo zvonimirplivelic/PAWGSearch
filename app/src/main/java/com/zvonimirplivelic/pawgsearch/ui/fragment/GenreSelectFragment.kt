@@ -8,16 +8,24 @@ import android.widget.Button
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.pawgsearch.*
 import com.zvonimirplivelic.pawgsearch.db.DBGenre
+import com.zvonimirplivelic.pawgsearch.domain.PAWGGenre
+import com.zvonimirplivelic.pawgsearch.domain.asDatabaseModel
 import com.zvonimirplivelic.pawgsearch.ui.adapter.GenreListAdapter
 import com.zvonimirplivelic.pawgsearch.viewmodel.PAWGSearchViewModel
 import com.zvonimirplivelic.pawgsearch.viewmodel.PAWGSearchViewModelFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
-class GenreSelectFragment : Fragment() {
+class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
 
     private val viewModel: PAWGSearchViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -32,6 +40,7 @@ class GenreSelectFragment : Fragment() {
     private lateinit var genreListAdapter: GenreListAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnSelectGenres: Button
+    private lateinit var genreList: List<PAWGGenre>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,22 +54,30 @@ class GenreSelectFragment : Fragment() {
         setupRecyclerView()
 
         viewModel.genres.observe(viewLifecycleOwner) { genreList ->
+            this.genreList = genreList
             genreListAdapter.setData(genreList)
         }
 
         btnSelectGenres.setOnClickListener {
-           
+            lifecycleScope.launch {
+                handleGenreData(genreList)
+                Timber.d("$genreList")
+            }
         }
-
 
         return view
     }
 
     private fun setupRecyclerView() {
-        genreListAdapter = GenreListAdapter()
+        genreListAdapter = GenreListAdapter(this)
         recyclerView.apply {
             adapter = genreListAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    override suspend fun handleGenreData(genreData: List<PAWGGenre>) {
+        viewModel.storeSelectedGenres(genreList.asDatabaseModel())
+
     }
 }

@@ -21,7 +21,8 @@ fun GenreResponse.asDomainModel(): List<PAWGGenre> {
         PAWGGenre(
             id = it.id,
             name = it.name,
-            slug = it.slug
+            slug = it.slug,
+            isSelected = false
         )
     }
 }

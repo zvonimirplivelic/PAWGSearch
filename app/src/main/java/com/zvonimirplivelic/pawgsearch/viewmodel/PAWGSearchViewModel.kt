@@ -18,7 +18,7 @@ class PAWGSearchViewModel(
 
     val genres = pawgSearchRepository.genres
 
-    fun storeSelectedGenres(genres: List<DBGenre>) = viewModelScope.launch {
+    suspend fun storeSelectedGenres(genres: List<DBGenre>) = viewModelScope.launch {
         pawgSearchRepository.storeSelectedGenres(genres)
     }
 
