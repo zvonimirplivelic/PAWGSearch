@@ -17,6 +17,7 @@ class RAWGSearchViewModel(
     private val rawgSearchRepository = RAWGSearchRepository(getDatabase(app))
 
     val genres = rawgSearchRepository.genres
+    var selectedGenres = rawgSearchRepository.selectedGenres
 
     suspend fun storeSelectedGenres(genres: List<DBGenre>) = viewModelScope.launch {
         rawgSearchRepository.storeSelectedGenres(genres)

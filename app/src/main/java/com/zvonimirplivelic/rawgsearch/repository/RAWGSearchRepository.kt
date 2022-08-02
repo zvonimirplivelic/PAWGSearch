@@ -20,6 +20,11 @@ class RAWGSearchRepository(private val database: RAWGSearchDatabase) {
             it.asDomainModel()
         }
 
+    val selectedGenres: LiveData<List<RAWGGenre>> =
+        Transformations.map(database.RAWGSearchDao.getSelectedGenres()) {
+            it.asDomainModel()
+        }
+
 
     suspend fun refreshGenres() {
         if(genres.value?.isEmpty() == true){
@@ -35,5 +40,4 @@ class RAWGSearchRepository(private val database: RAWGSearchDatabase) {
             database.RAWGSearchDao.updateGenres(genres)
         }
     }
-
 }
