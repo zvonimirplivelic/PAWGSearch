@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rawg_search_nav_graph"
+    app:startDestination="@id/genreSelectFragment">
+
+    <fragment
+        android:id="@+id/genreSelectFragment"
+        android:name="com.zvonimirplivelic.rawgsearch.ui.fragment.GenreSelectFragment"
+        android:label="fragment_genre_select"
+        tools:layout="@layout/fragment_genre_select" >
+        <action
+            android:id="@+id/action_genreSelectFragment_to_gamesListFragment"
+            app:destination="@id/gamesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameDetailsFragment"
+        android:name="com.zvonimirplivelic.rawgsearch.ui.fragment.GameDetailsFragment"
+        android:label="fragment_game_details"
+        tools:layout="@layout/fragment_game_details" >
+        <argument
+            android:name="selectedGame"
+            app:argType="com.zvonimirplivelic.rawgsearch.remote.model.games.GameListResult" />
+    </fragment>
+    <fragment
+        android:id="@+id/gamesListFragment"
+        android:name="com.zvonimirplivelic.rawgsearch.ui.fragment.GamesListFragment"
+        android:label="fragment_games_list"
+        tools:layout="@layout/fragment_games_list" >
+        <action
+            android:id="@+id/action_gamesListFragment_to_gameDetailsFragment"
+            app:destination="@id/gameDetailsFragment" />
+        <argument
+            android:name="selectedGenre"
+            app:argType="com.zvonimirplivelic.rawgsearch.domain.RAWGGenre[]"
+            app:nullable="true" />
+    </fragment>
+</navigation>
