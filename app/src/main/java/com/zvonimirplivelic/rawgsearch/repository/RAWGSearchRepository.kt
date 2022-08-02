@@ -40,4 +40,10 @@ class RAWGSearchRepository(private val database: RAWGSearchDatabase) {
             database.RAWGSearchDao.updateGenres(genres)
         }
     }
+
+    suspend fun getGameList(apiKey: String, queryString: String) {
+        withContext(Dispatchers.IO) {
+            RetrofitInstance.api.getGameList(apiKey, queryString)
+        }
+    }
 }
