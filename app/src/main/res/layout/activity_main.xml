@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".MainActivity">
 
 
     <fragment
-        android:id="@+id/pawg_nav_host_fragment"
+        android:id="@+id/rawg_nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/pawg_search_nav_graph" />
+        app:navGraph="@navigation/rawg_search_nav_graph" />
 
 </FrameLayout>
