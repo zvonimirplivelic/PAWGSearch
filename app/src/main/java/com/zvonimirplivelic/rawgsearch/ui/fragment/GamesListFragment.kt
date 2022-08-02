@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavArgs
-import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.R
-import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
+import com.zvonimirplivelic.rawgsearch.ui.adapter.GameItemAdapter
 import com.zvonimirplivelic.rawgsearch.util.Constants.API_KEY
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModel
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
@@ -29,6 +28,10 @@ class GamesListFragment : Fragment() {
         )[RAWGSearchViewModel::class.java]
     }
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var gameItemAdapter: GameItemAdapter
+
+
     private var queryString: String = ""
 
     override fun onCreateView(
@@ -37,26 +40,32 @@ class GamesListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_games_list, container, false)
 
+
+
         lifecycleScope.launch {
-            val deffered = async {
+            val deferred = async {
                 viewModel.selectedGenres.observe(viewLifecycleOwner) { genreList ->
                     queryString = genreList.joinToString { it.slug }.replace(" ", "")
+                    Timber.d("Querybuilder $queryString")
                 }
 
-                withContext(Dispatchers.IO) {
-                    viewModel.getGameList(API_KEY, queryString)
-                }
-                delay(1000)
             }
-            deffered.await()
+            deferred.await()
+
+            withContext(Dispatchers.IO) {
+                delay(1000L)
+                Timber.d("Querybuilder $queryString")
+                viewModel.getGameList(API_KEY, queryString)
+            }
         }
-                viewModel.gamesList.observe(viewLifecycleOwner) { gameDataResponse ->
-                    if (gameDataResponse.isSuccessful) {
-                        Timber.d("${gameDataResponse.body()}")
-                    } else {
-                        gameDataResponse.errorBody()
-                    }
-                }
+
+        viewModel.gamesList.observe(viewLifecycleOwner) { gameDataResponse ->
+            if (gameDataResponse.isSuccessful) {
+                Timber.d("ResultBuilder ${gameDataResponse.body()!!.results}")
+            } else {
+                gameDataResponse.errorBody()
+            }
+        }
 
         return view
     }
