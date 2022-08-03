@@ -7,6 +7,8 @@ import com.zvonimirplivelic.rawgsearch.db.RAWGSearchDatabase
 import com.zvonimirplivelic.rawgsearch.db.asDomainModel
 import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
 import com.zvonimirplivelic.rawgsearch.remote.RetrofitInstance
+import com.zvonimirplivelic.rawgsearch.remote.model.games.GameDataResponse
+import com.zvonimirplivelic.rawgsearch.remote.model.games.GameListResult
 import com.zvonimirplivelic.rawgsearch.remote.model.genre.asDatabaseModel
 import com.zvonimirplivelic.rawgsearch.util.Constants.API_KEY
 import kotlinx.coroutines.Dispatchers
@@ -25,9 +27,8 @@ class RAWGSearchRepository(private val database: RAWGSearchDatabase) {
             it.asDomainModel()
         }
 
-
     suspend fun refreshGenres() {
-        if(genres.value?.isEmpty() == true){
+        if (genres.value?.isEmpty() == true) {
             withContext(Dispatchers.IO) {
                 val genres = RetrofitInstance.api.getRemoteGenreList(API_KEY)
                 database.RAWGSearchDao.insertGenres(genres.asDatabaseModel())
@@ -40,4 +41,8 @@ class RAWGSearchRepository(private val database: RAWGSearchDatabase) {
             database.RAWGSearchDao.updateGenres(genres)
         }
     }
+
+    suspend fun getGameList(apiKey: String, queryString: String) =
+        RetrofitInstance.api.getGameList(apiKey, queryString)
+
 }
