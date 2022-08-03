@@ -63,13 +63,11 @@ android {
         implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
         implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
-
         // Moshi
         def moshi_version = "1.13.0"
         implementation "com.squareup.moshi:moshi:$moshi_version"
         implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
         kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
-
 
         // OKHTTP Logging Interceptor
         def okhttp_version = "5.0.0-alpha.3"
@@ -95,6 +93,9 @@ android {
         implementation "androidx.room:room-ktx:$room_version"
         kapt "androidx.room:room-compiler:$room_version"
 
+        // Picasso
+        def picasso_version = "2.71828"
+        implementation "com.squareup.picasso:picasso:$picasso_version"
     }
 }
 
