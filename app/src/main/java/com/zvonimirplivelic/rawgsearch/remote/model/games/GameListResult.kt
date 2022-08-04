@@ -13,7 +13,7 @@ data class GameListResult(
     val clip: String?,
     val dominant_color: String?,
     val esrb_rating: EsrbRating?,
-    val gameGenres: List<GameGenre>?,
+    val game_genres: List<GameGenre>?,
     val id: Int,
     val metacritic: Int?,
     val name: String?,
