@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.R
@@ -21,7 +22,7 @@ import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class GamesListFragment : Fragment() {
+class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
 
     private val viewModel: RAWGSearchViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -54,16 +55,13 @@ class GamesListFragment : Fragment() {
             val deferred = async {
                 viewModel.selectedGenres.observe(viewLifecycleOwner) { genreList ->
                     queryString = genreList.joinToString { it.slug }.replace(" ", "")
-                    Timber.d("Querybuilder $queryString")
                 }
             }
             deferred.await()
 
             withContext(Dispatchers.IO) {
                 delay(1000L)
-                Timber.d("Querybuilder $queryString")
                 viewModel.getGameList(API_KEY, queryString)
-
             }
         }
 
@@ -94,10 +92,18 @@ class GamesListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        gameListAdapter = GameListAdapter()
+        gameListAdapter = GameListAdapter(this)
         recyclerView.apply {
             adapter = gameListAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        val selectedGame = gameListAdapter.gamesList[position]
+
+        val action =
+            GamesListFragmentDirections.actionGamesListFragmentToGameDetailsFragment(selectedGame)
+        requireView().findNavController().navigate(action)
     }
 }

@@ -8,20 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.zvonimirplivelic.rawgsearch.R
-import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
-import com.zvonimirplivelic.rawgsearch.remote.model.games.GameDataResponse
 import com.zvonimirplivelic.rawgsearch.remote.model.games.GameListResult
 import com.zvonimirplivelic.rawgsearch.util.DiffUtilExtension.autoNotify
 import kotlin.properties.Delegates
 
-class GameListAdapter : RecyclerView.Adapter<GameListAdapter.GameListItemViewHolder>() {
+class GameListAdapter(
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<GameListAdapter.GameListItemViewHolder>() {
 
-    private var gamesList: List<GameListResult>
+    var gamesList: List<GameListResult>
             by Delegates.observable(emptyList()) { _, oldList, newList ->
                 autoNotify(oldList, newList) { o, n -> o.id == n.id }
             }
-
-    inner class GameListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameListItemViewHolder {
         return GameListItemViewHolder(
@@ -56,5 +54,23 @@ class GameListAdapter : RecyclerView.Adapter<GameListAdapter.GameListItemViewHol
     fun setData(gamesList: List<GameListResult>) {
         this.gamesList = gamesList
         notifyDataSetChanged()
+    }
+
+    inner class GameListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }

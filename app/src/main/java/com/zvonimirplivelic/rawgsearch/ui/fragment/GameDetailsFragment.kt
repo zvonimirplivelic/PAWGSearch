@@ -13,6 +13,8 @@ class GameDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_game_details, container, false)
+
+
         return view
     }
 }
