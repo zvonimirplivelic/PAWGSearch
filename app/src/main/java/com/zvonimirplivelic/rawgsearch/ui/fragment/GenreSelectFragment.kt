@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
-class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
+class GenreSelectFragment : Fragment() {
 
     private val viewModel: RAWGSearchViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -58,7 +58,6 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
 
         btnSelectGenres.setOnClickListener {
             lifecycleScope.launch {
-                handleGenreData(genreList.asSelectedGenre())
                 Timber.d("$genreList")
             }
 
@@ -74,14 +73,10 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
     }
 
     private fun setupRecyclerView() {
-        genreListAdapter = GenreListAdapter(this)
+        genreListAdapter = GenreListAdapter()
         recyclerView.apply {
             adapter = genreListAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-    }
-
-    override suspend fun handleGenreData(genreData: List<SelectedGenre>) {
-        viewModel.storeSelectedGenres(genreList.asSelectedGenre())
     }
 }

@@ -1,33 +1,52 @@
 package com.zvonimirplivelic.rawgsearch.ui.adapter
 
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TextView
-import androidx.cardview.widget.CardView
+import android.widget.CheckedTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
 import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
-import com.zvonimirplivelic.rawgsearch.domain.asSelectedGenre
+import com.zvonimirplivelic.rawgsearch.ui.fragment.GenreSelectFragment
 import com.zvonimirplivelic.rawgsearch.util.DiffUtilExtension.autoNotify
-import timber.log.Timber
 import kotlin.properties.Delegates
 
-class GenreListAdapter(
-    val handler: GenreListAdapter.CheckBoxCallback
-) :
+class GenreListAdapter() :
     RecyclerView.Adapter<GenreListAdapter.GenreListItemViewHolder>() {
 
     private var genreList: List<RAWGGenre>
             by Delegates.observable(emptyList()) { _, oldList, newList ->
                 autoNotify(oldList, newList) { o, n -> o.id == n.id }
             }
+    var selectedGenreArray = SparseBooleanArray()
 
-    private val selectedGenreList: List<SelectedGenre> = genreList.asSelectedGenre()
+    inner class GenreListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+        private val ctvSelectGenre: CheckedTextView
 
-    inner class GenreListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+        fun bind(position: Int) {
+            ctvSelectGenre.isChecked = selectedGenreArray[position, false]
+            ctvSelectGenre.text = genreList!![position].name
+        }
+
+        override fun onClick(v: View?) {
+            val adapterPosition = adapterPosition
+            if (!selectedGenreArray[adapterPosition, false]) {
+                ctvSelectGenre.isChecked = true
+                selectedGenreArray.put(adapterPosition, true)
+            } else {
+                ctvSelectGenre.isChecked = false
+                selectedGenreArray.put(adapterPosition, false)
+            }
+        }
+
+        init {
+            ctvSelectGenre = itemView.findViewById(R.id.ctv_select_genre)
+            itemView.setOnClickListener(this)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreListItemViewHolder {
         return GenreListItemViewHolder(
@@ -40,26 +59,7 @@ class GenreListAdapter(
     }
 
     override fun onBindViewHolder(holder: GenreListItemViewHolder, position: Int) {
-        val selectedGenre = genreList[position]
-
-        holder.itemView.apply {
-            val cvGenreCard: CardView = findViewById(R.id.cv_genre_card)
-            val tvGenreName: TextView = findViewById(R.id.tv_genre_name)
-            val cbGenreSelect: CheckBox = findViewById(R.id.cb_genre_select)
-
-
-            tvGenreName.text = selectedGenre.name
-            cbGenreSelect.isChecked = selectedGenre.isSelected!!
-
-            cvGenreCard.setOnClickListener{
-                cbGenreSelect.isChecked = !cbGenreSelect.isChecked
-            }
-
-            cbGenreSelect.setOnCheckedChangeListener { _, isChecked ->
-                selectedGenre.isSelected = isChecked
-                Timber.d("CBState ${selectedGenre.name}; ${selectedGenre.isSelected}; ${cbGenreSelect.isChecked}")
-            }
-        }
+        holder.bind(position)
     }
 
     override fun getItemCount(): Int = genreList.size
@@ -67,13 +67,5 @@ class GenreListAdapter(
     fun setData(genreList: List<RAWGGenre>) {
         this.genreList = genreList
         notifyDataSetChanged()
-    }
-
-    private suspend fun handleGenreData(genreList: List<SelectedGenre>) {
-        handler.handleGenreData(selectedGenreList)
-    }
-
-    interface CheckBoxCallback {
-        suspend fun handleGenreData(genreData: List<SelectedGenre>)
     }
 }
