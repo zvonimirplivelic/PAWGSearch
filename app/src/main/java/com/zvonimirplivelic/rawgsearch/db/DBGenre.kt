@@ -12,8 +12,7 @@ data class DBGenre constructor(
     @PrimaryKey
     var id: Int,
     var name: String,
-    var slug: String,
-    var isSelected: Boolean?
+    var slug: String
 ) : Parcelable
 
 @Parcelize
@@ -27,7 +26,7 @@ fun List<DBGenre>.asDomainModel(): List<RAWGGenre> {
             id = it.id,
             name = it.name,
             slug = it.slug,
-            isSelected = it.isSelected
+            isSelected = false
         )
     }
 }

@@ -3,6 +3,7 @@ package com.zvonimirplivelic.rawgsearch.domain
 import android.os.Parcelable
 import androidx.lifecycle.Transformations.map
 import com.zvonimirplivelic.rawgsearch.db.DBGenre
+import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -23,8 +24,18 @@ fun List<RAWGGenre>.asDatabaseModel(): List<DBGenre> {
         DBGenre(
             id = it.id,
             name = it.name,
+            slug = it.slug
+        )
+    }
+}
+
+fun List<RAWGGenre>.asSelectedGenre(): List<SelectedGenre> {
+    return map {
+        SelectedGenre(
+            id = it.id,
+            name = it.name,
             slug = it.slug,
-            isSelected = it.isSelected
+            isSelected = it.isSelected!!
         )
     }
 }

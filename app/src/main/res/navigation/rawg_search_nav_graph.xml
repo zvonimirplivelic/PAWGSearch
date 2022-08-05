@@ -33,7 +33,7 @@
             app:destination="@id/gameDetailsFragment" />
         <argument
             android:name="selectedGenre"
-            app:argType="com.zvonimirplivelic.rawgsearch.domain.RAWGGenre[]"
+            app:argType="com.zvonimirplivelic.rawgsearch.db.SelectedGenre[]"
             app:nullable="true" />
     </fragment>
 </navigation>

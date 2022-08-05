@@ -8,14 +8,13 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.*
-import com.zvonimirplivelic.rawgsearch.db.DBGenre
+import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
 import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
-import com.zvonimirplivelic.rawgsearch.domain.asDatabaseModel
+import com.zvonimirplivelic.rawgsearch.domain.asSelectedGenre
 import com.zvonimirplivelic.rawgsearch.ui.adapter.GenreListAdapter
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModel
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
@@ -52,17 +51,18 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
         setupRecyclerView()
 
         viewModel.genres.observe(viewLifecycleOwner) { genreList ->
+            Timber.d("Genres observe")
             this.genreList = genreList
             genreListAdapter.setData(genreList)
         }
 
         btnSelectGenres.setOnClickListener {
             lifecycleScope.launch {
-                handleGenreData(genreList)
+                handleGenreData(genreList.asSelectedGenre())
                 Timber.d("$genreList")
             }
 
-            val navArray: Array<RAWGGenre> = genreList.toTypedArray()
+            val navArray: Array<SelectedGenre> = genreList.asSelectedGenre().toTypedArray()
             val action =
                 GenreSelectFragmentDirections.actionGenreSelectFragmentToGamesListFragment(
                     navArray
@@ -81,8 +81,7 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
         }
     }
 
-    override suspend fun handleGenreData(genreData: List<RAWGGenre>) {
-        viewModel.storeSelectedGenres(genreList.asDatabaseModel())
-
+    override suspend fun handleGenreData(genreData: List<SelectedGenre>) {
+        viewModel.storeSelectedGenres(genreList.asSelectedGenre())
     }
 }

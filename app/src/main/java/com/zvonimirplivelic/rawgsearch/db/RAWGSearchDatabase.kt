@@ -8,13 +8,13 @@ import com.zvonimirplivelic.rawgsearch.util.Constants.DATABASE_NAME
 
 
 @Database(
-    entities = [DBGenre::class],
-    version = 1,
+    entities = [DBGenre::class, SelectedGenre::class],
+    version = 2,
     exportSchema = false
 )
 abstract class RAWGSearchDatabase : RoomDatabase() {
 
-    abstract val RAWGSearchDao: RAWGSearchDao
+    abstract val rawgSearchDao: RAWGSearchDao
 }
 
 private lateinit var INSTANCE: RAWGSearchDatabase
@@ -26,7 +26,7 @@ fun getDatabase(context: Context): RAWGSearchDatabase {
                 context.applicationContext,
                 RAWGSearchDatabase::class.java,
                 DATABASE_NAME
-            ).build()
+            ).fallbackToDestructiveMigration().build()
         }
     }
     return INSTANCE
