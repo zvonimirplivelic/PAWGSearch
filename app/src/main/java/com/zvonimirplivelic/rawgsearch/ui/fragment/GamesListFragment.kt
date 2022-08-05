@@ -10,7 +10,9 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.R
@@ -36,9 +38,15 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var gameListAdapter: GameListAdapter
+    private lateinit var fabGenreSelect: FloatingActionButton
     private lateinit var progressBar: ProgressBar
 
     private var queryString: String = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        hasOptionsMenu()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +56,18 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
 
         recyclerView = view.findViewById(R.id.rv_game_list)
         progressBar = view.findViewById(R.id.progress_bar)
+        fabGenreSelect = view.findViewById(R.id.fab_navigate_to_genre_select)
 
         setupRecyclerView()
 
         lifecycleScope.launch {
             val deferred = async {
                 viewModel.selectedGenres.observe(viewLifecycleOwner) { genreList ->
-                    queryString = genreList.joinToString { it.slug }.replace(" ", "")
+                    if (genreList.isNullOrEmpty()) {
+                        findNavController().navigate(R.id.action_gamesListFragment_to_genreSelectFragment)
+                    } else {
+                        queryString = genreList.joinToString { it.slug }.replace(" ", "")
+                    }
                 }
             }
             deferred.await()
@@ -88,6 +101,10 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
             }
         }
 
+        fabGenreSelect.setOnClickListener {
+            findNavController().navigate(R.id.action_gamesListFragment_to_genreSelectFragment)
+        }
+
         return view
     }
 
@@ -106,4 +123,5 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
             GamesListFragmentDirections.actionGamesListFragmentToGameDetailsFragment(selectedGame)
         requireView().findNavController().navigate(action)
     }
+
 }

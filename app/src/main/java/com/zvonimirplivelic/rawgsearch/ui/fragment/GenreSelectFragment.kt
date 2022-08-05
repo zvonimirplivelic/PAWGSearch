@@ -18,11 +18,12 @@ import com.zvonimirplivelic.rawgsearch.domain.asSelectedGenre
 import com.zvonimirplivelic.rawgsearch.ui.adapter.GenreListAdapter
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModel
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
-class GenreSelectFragment : Fragment() {
+class GenreSelectFragment : Fragment(), GenreListAdapter.SelectedGenresCallback {
 
     private val viewModel: RAWGSearchViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -37,7 +38,7 @@ class GenreSelectFragment : Fragment() {
     private lateinit var genreListAdapter: GenreListAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnSelectGenres: Button
-    private lateinit var genreList: List<RAWGGenre>
+    private lateinit var selectedGenreList: List<SelectedGenre>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,17 +52,17 @@ class GenreSelectFragment : Fragment() {
         setupRecyclerView()
 
         viewModel.genres.observe(viewLifecycleOwner) { genreList ->
-            Timber.d("Genres observe")
-            this.genreList = genreList
             genreListAdapter.setData(genreList)
         }
 
         btnSelectGenres.setOnClickListener {
+            genreListAdapter.selectGenres()
             lifecycleScope.launch {
-                Timber.d("$genreList")
+                viewModel.storeSelectedGenres(selectedGenreList)
+                        delay(333)
             }
 
-            val navArray: Array<SelectedGenre> = genreList.asSelectedGenre().toTypedArray()
+            val navArray: Array<SelectedGenre> = selectedGenreList.toTypedArray()
             val action =
                 GenreSelectFragmentDirections.actionGenreSelectFragmentToGamesListFragment(
                     navArray
@@ -73,10 +74,14 @@ class GenreSelectFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        genreListAdapter = GenreListAdapter()
+        genreListAdapter = GenreListAdapter(this)
         recyclerView.apply {
             adapter = genreListAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    override fun handleSelectedGenres(selectedGenres: List<SelectedGenre>) {
+        this.selectedGenreList = selectedGenres
     }
 }

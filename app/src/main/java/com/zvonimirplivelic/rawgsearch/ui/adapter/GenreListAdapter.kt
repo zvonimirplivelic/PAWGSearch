@@ -68,4 +68,21 @@ class GenreListAdapter() :
         this.genreList = genreList
         notifyDataSetChanged()
     }
+
+    fun selectGenres() {
+        val selectedGenreList = genreList.asSelectedGenre() as MutableList<SelectedGenre>
+        val genreArray = selectedGenreArray
+
+        genreArray.forEach { position, selectedGenre ->
+            selectedGenreList[position].isSelected = selectedGenre
+        }
+
+        Timber.d("GenreSelection $selectedGenreList")
+        handler.handleSelectedGenres(selectedGenreList)
+    }
+
+
+    interface SelectedGenresCallback {
+        fun handleSelectedGenres(selectedGenres: List<SelectedGenre>)
+    }
 }
