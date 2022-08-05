@@ -8,14 +8,13 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.*
-import com.zvonimirplivelic.rawgsearch.db.DBGenre
+import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
 import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
-import com.zvonimirplivelic.rawgsearch.domain.asDatabaseModel
+import com.zvonimirplivelic.rawgsearch.domain.asSelectedGenre
 import com.zvonimirplivelic.rawgsearch.ui.adapter.GenreListAdapter
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModel
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
@@ -23,7 +22,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
-class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
+class GenreSelectFragment : Fragment() {
 
     private val viewModel: RAWGSearchViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -52,17 +51,17 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
         setupRecyclerView()
 
         viewModel.genres.observe(viewLifecycleOwner) { genreList ->
+            Timber.d("Genres observe")
             this.genreList = genreList
             genreListAdapter.setData(genreList)
         }
 
         btnSelectGenres.setOnClickListener {
             lifecycleScope.launch {
-                handleGenreData(genreList)
                 Timber.d("$genreList")
             }
 
-            val navArray: Array<RAWGGenre> = genreList.toTypedArray()
+            val navArray: Array<SelectedGenre> = genreList.asSelectedGenre().toTypedArray()
             val action =
                 GenreSelectFragmentDirections.actionGenreSelectFragmentToGamesListFragment(
                     navArray
@@ -74,15 +73,10 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.CheckBoxCallback {
     }
 
     private fun setupRecyclerView() {
-        genreListAdapter = GenreListAdapter(this)
+        genreListAdapter = GenreListAdapter()
         recyclerView.apply {
             adapter = genreListAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-    }
-
-    override suspend fun handleGenreData(genreData: List<RAWGGenre>) {
-        viewModel.storeSelectedGenres(genreList.asDatabaseModel())
-
     }
 }

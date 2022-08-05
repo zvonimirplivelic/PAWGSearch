@@ -6,21 +6,16 @@ import androidx.room.PrimaryKey
 import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
 import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "genre_table")
+@Entity(tableName = "selected_genre_table")
 @Parcelize
-data class DBGenre constructor(
-    @PrimaryKey
-    var id: Int,
-    var name: String,
-    var slug: String
+data class SelectedGenre(
+    @PrimaryKey val id: Int,
+    val name: String,
+    val slug: String,
+    var isSelected: Boolean
 ) : Parcelable
 
-@Parcelize
-data class GenreList(
-    var genreList: List<DBGenre>
-) : Parcelable
-
-fun List<DBGenre>.asDomainModel(): List<RAWGGenre> {
+fun List<SelectedGenre>.asDomainModel(): List<RAWGGenre> {
     return map {
         RAWGGenre(
             id = it.id,

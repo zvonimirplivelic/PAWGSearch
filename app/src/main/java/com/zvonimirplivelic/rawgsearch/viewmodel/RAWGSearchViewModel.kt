@@ -8,13 +8,16 @@ import android.widget.Toast
 import androidx.lifecycle.*
 import com.zvonimirplivelic.rawgsearch.RAWGSearchApplication
 import com.zvonimirplivelic.rawgsearch.db.DBGenre
+import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
 import com.zvonimirplivelic.rawgsearch.db.getDatabase
+import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
 import com.zvonimirplivelic.rawgsearch.remote.model.games.GameDataResponse
 import com.zvonimirplivelic.rawgsearch.repository.RAWGSearchRepository
 import com.zvonimirplivelic.rawgsearch.util.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import timber.log.Timber
 import java.io.IOException
 
 
@@ -38,7 +41,7 @@ class RAWGSearchViewModel(
         viewModelScope.launch {
             try {
                 rawgSearchRepository.refreshGenres()
-
+                Timber.d("Genres refresh")
             } catch (networkError: IOException) {
                 if (genres.value.isNullOrEmpty())
                     Toast.makeText(
@@ -50,7 +53,7 @@ class RAWGSearchViewModel(
         }
     }
 
-    suspend fun storeSelectedGenres(genres: List<DBGenre>) = viewModelScope.launch {
+    suspend fun storeSelectedGenres(genres: List<SelectedGenre>) = viewModelScope.launch {
         rawgSearchRepository.storeSelectedGenres(genres)
     }
 
