@@ -1,22 +1,29 @@
 package com.zvonimirplivelic.rawgsearch.ui.adapter
 
+import android.content.Context
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
+import android.widget.Toast
+import androidx.core.util.forEach
+import androidx.core.util.isEmpty
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.R
-import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
+import com.zvonimirplivelic.rawgsearch.db.DBGenre
 import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
-import com.zvonimirplivelic.rawgsearch.ui.fragment.GenreSelectFragment
+import com.zvonimirplivelic.rawgsearch.domain.asDatabaseModel
 import com.zvonimirplivelic.rawgsearch.util.DiffUtilExtension.autoNotify
+import timber.log.Timber
 import kotlin.properties.Delegates
 
-class GenreListAdapter() :
+class GenreListAdapter(
+    private val handler: GenreListAdapter.SelectedGenresCallback
+) :
     RecyclerView.Adapter<GenreListAdapter.GenreListItemViewHolder>() {
 
-    private var genreList: List<RAWGGenre>
+    private var genreList: List<DBGenre>
             by Delegates.observable(emptyList()) { _, oldList, newList ->
                 autoNotify(oldList, newList) { o, n -> o.id == n.id }
             }
@@ -27,8 +34,8 @@ class GenreListAdapter() :
         private val ctvSelectGenre: CheckedTextView
 
         fun bind(position: Int) {
-            ctvSelectGenre.isChecked = selectedGenreArray[position, false]
-            ctvSelectGenre.text = genreList!![position].name
+            ctvSelectGenre.isChecked = genreList[position].isSelected
+            ctvSelectGenre.text = genreList[position].name
         }
 
         override fun onClick(v: View?) {
@@ -65,13 +72,13 @@ class GenreListAdapter() :
     override fun getItemCount(): Int = genreList.size
 
     fun setData(genreList: List<RAWGGenre>) {
-        this.genreList = genreList
-        notifyDataSetChanged()
+        this.genreList = genreList.asDatabaseModel()
     }
 
     fun selectGenres() {
-        val selectedGenreList = genreList.asSelectedGenre() as MutableList<SelectedGenre>
+        val selectedGenreList = genreList
         val genreArray = selectedGenreArray
+
 
         genreArray.forEach { position, selectedGenre ->
             selectedGenreList[position].isSelected = selectedGenre
@@ -81,8 +88,7 @@ class GenreListAdapter() :
         handler.handleSelectedGenres(selectedGenreList)
     }
 
-
     interface SelectedGenresCallback {
-        fun handleSelectedGenres(selectedGenres: List<SelectedGenre>)
+        fun handleSelectedGenres(selectedGenres: List<DBGenre>)
     }
 }

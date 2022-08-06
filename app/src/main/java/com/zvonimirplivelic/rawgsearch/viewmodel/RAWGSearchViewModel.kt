@@ -8,9 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.*
 import com.zvonimirplivelic.rawgsearch.RAWGSearchApplication
 import com.zvonimirplivelic.rawgsearch.db.DBGenre
-import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
 import com.zvonimirplivelic.rawgsearch.db.getDatabase
-import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
 import com.zvonimirplivelic.rawgsearch.remote.model.games.GameDataResponse
 import com.zvonimirplivelic.rawgsearch.repository.RAWGSearchRepository
 import com.zvonimirplivelic.rawgsearch.util.Resource
@@ -53,8 +51,8 @@ class RAWGSearchViewModel(
         }
     }
 
-    suspend fun storeSelectedGenres(genres: List<SelectedGenre>) = viewModelScope.launch {
-        rawgSearchRepository.storeSelectedGenres(genres)
+    suspend fun updateGenres(genres: List<DBGenre>) = viewModelScope.launch {
+        rawgSearchRepository.updateGenres(genres)
     }
 
     fun getGameList(apiKey: String, queryString: String) = viewModelScope.launch {

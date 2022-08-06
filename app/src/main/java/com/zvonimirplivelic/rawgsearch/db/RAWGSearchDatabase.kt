@@ -8,8 +8,8 @@ import com.zvonimirplivelic.rawgsearch.util.Constants.DATABASE_NAME
 
 
 @Database(
-    entities = [DBGenre::class, SelectedGenre::class],
-    version = 2,
+    entities = [DBGenre::class],
+    version = 1,
     exportSchema = false
 )
 abstract class RAWGSearchDatabase : RoomDatabase() {

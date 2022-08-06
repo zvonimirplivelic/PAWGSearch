@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.ui.adapter.GameListAdapter
 import com.zvonimirplivelic.rawgsearch.util.Constants.API_KEY

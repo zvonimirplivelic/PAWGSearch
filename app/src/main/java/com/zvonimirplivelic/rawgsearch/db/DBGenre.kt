@@ -12,7 +12,8 @@ data class DBGenre constructor(
     @PrimaryKey
     var id: Int,
     var name: String,
-    var slug: String
+    var slug: String,
+    var isSelected: Boolean
 ) : Parcelable
 
 @Parcelize

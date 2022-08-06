@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -12,9 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.*
-import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
-import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
-import com.zvonimirplivelic.rawgsearch.domain.asSelectedGenre
+import com.zvonimirplivelic.rawgsearch.db.DBGenre
+import com.zvonimirplivelic.rawgsearch.db.asDomainModel
 import com.zvonimirplivelic.rawgsearch.ui.adapter.GenreListAdapter
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModel
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
@@ -38,7 +38,7 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.SelectedGenresCallback 
     private lateinit var genreListAdapter: GenreListAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnSelectGenres: Button
-    private lateinit var selectedGenreList: List<SelectedGenre>
+    private lateinit var selectedGenreList: List<DBGenre>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,17 +57,20 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.SelectedGenresCallback 
 
         btnSelectGenres.setOnClickListener {
             genreListAdapter.selectGenres()
+
             lifecycleScope.launch {
-                viewModel.storeSelectedGenres(selectedGenreList)
-                        delay(333)
+                viewModel.updateGenres(selectedGenreList)
+                delay(333)
             }
 
-            val navArray: Array<SelectedGenre> = selectedGenreList.toTypedArray()
+            val navArray: Array<DBGenre> = selectedGenreList.toTypedArray()
+
             val action =
                 GenreSelectFragmentDirections.actionGenreSelectFragmentToGamesListFragment(
                     navArray
                 )
             findNavController().navigate(action)
+
         }
 
         return view
@@ -81,7 +84,7 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.SelectedGenresCallback 
         }
     }
 
-    override fun handleSelectedGenres(selectedGenres: List<SelectedGenre>) {
+    override fun handleSelectedGenres(selectedGenres: List<DBGenre>) {
         this.selectedGenreList = selectedGenres
     }
 }

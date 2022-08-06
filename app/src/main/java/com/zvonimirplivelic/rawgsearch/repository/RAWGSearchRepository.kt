@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.zvonimirplivelic.rawgsearch.db.DBGenre
 import com.zvonimirplivelic.rawgsearch.db.RAWGSearchDatabase
-import com.zvonimirplivelic.rawgsearch.db.SelectedGenre
 import com.zvonimirplivelic.rawgsearch.db.asDomainModel
 import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
 import com.zvonimirplivelic.rawgsearch.remote.RetrofitInstance
@@ -37,9 +36,9 @@ class RAWGSearchRepository(private val database: RAWGSearchDatabase) {
         }
     }
 
-    suspend fun storeSelectedGenres(genres: List<SelectedGenre>) {
+    suspend fun updateGenres(genres: List<DBGenre>) {
         withContext(Dispatchers.IO) {
-            database.rawgSearchDao.insertSelectedGenres(genres)
+            database.rawgSearchDao.updateGenres(genres)
         }
     }
 

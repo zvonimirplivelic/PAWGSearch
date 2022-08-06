@@ -30,7 +30,8 @@ fun GenreResponse.asDatabaseModel(): List<DBGenre> {
         DBGenre(
             id = it.id,
             name = it.name,
-            slug = it.slug
+            slug = it.slug,
+            isSelected = false
         )
     }
 }

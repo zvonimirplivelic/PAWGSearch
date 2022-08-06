@@ -33,7 +33,7 @@
             app:destination="@id/gameDetailsFragment" />
         <argument
             android:name="selectedGenre"
-            app:argType="com.zvonimirplivelic.rawgsearch.db.SelectedGenre[]"
+            app:argType="com.zvonimirplivelic.rawgsearch.db.DBGenre[]"
             app:nullable="true" />
         <action
             android:id="@+id/action_gamesListFragment_to_genreSelectFragment"
