@@ -29,7 +29,7 @@ class RAWGSearchViewModel(
     var selectedGenres = rawgSearchRepository.selectedGenres
 
     val gameList: MutableLiveData<Resource<GameDataResponse>> = MutableLiveData()
-    var gameListResponse: GameDataResponse? = null
+    private var gameListResponse: GameDataResponse? = null
 
     init {
         refreshDataFromRepository()

@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="16dp"
-        android:checked="false"
         android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
         android:gravity="center|center_horizontal"
         android:textAlignment="center"

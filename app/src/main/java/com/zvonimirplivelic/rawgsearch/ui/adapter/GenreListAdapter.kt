@@ -1,25 +1,21 @@
 package com.zvonimirplivelic.rawgsearch.ui.adapter
 
-import android.content.Context
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
-import android.widget.Toast
 import androidx.core.util.forEach
-import androidx.core.util.isEmpty
 import androidx.recyclerview.widget.RecyclerView
 import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.db.DBGenre
 import com.zvonimirplivelic.rawgsearch.domain.RAWGGenre
 import com.zvonimirplivelic.rawgsearch.domain.asDatabaseModel
 import com.zvonimirplivelic.rawgsearch.util.DiffUtilExtension.autoNotify
-import timber.log.Timber
 import kotlin.properties.Delegates
 
 class GenreListAdapter(
-    private val handler: GenreListAdapter.SelectedGenresCallback
+    private val handler: SelectedGenresCallback
 ) :
     RecyclerView.Adapter<GenreListAdapter.GenreListItemViewHolder>() {
 

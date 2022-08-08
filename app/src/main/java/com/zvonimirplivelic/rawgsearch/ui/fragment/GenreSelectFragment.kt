@@ -12,16 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.zvonimirplivelic.rawgsearch.*
+import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.db.DBGenre
-import com.zvonimirplivelic.rawgsearch.db.asDomainModel
 import com.zvonimirplivelic.rawgsearch.ui.adapter.GenreListAdapter
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModel
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import timber.log.Timber
 
 

@@ -1,8 +1,7 @@
 package com.zvonimirplivelic.rawgsearch
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.zvonimirplivelic.rawgsearch.R
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

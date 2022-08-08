@@ -13,17 +13,6 @@ data class GenreResponse(
     val results: List<Genre>
 )
 
-fun GenreResponse.asDomainModel(): List<RAWGGenre> {
-    return results.map {
-        RAWGGenre(
-            id = it.id,
-            name = it.name,
-            slug = it.slug,
-            isSelected = null
-        )
-    }
-}
-
 
 fun GenreResponse.asDatabaseModel(): List<DBGenre> {
     return results.map {

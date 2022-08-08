@@ -1,7 +1,6 @@
 package com.zvonimirplivelic.rawgsearch.domain
 
 import android.os.Parcelable
-import androidx.lifecycle.Transformations.map
 import com.zvonimirplivelic.rawgsearch.db.DBGenre
 import kotlinx.parcelize.Parcelize
 
