@@ -18,8 +18,10 @@ import com.zvonimirplivelic.rawgsearch.db.asDomainModel
 import com.zvonimirplivelic.rawgsearch.ui.adapter.GenreListAdapter
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModel
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.select
 import timber.log.Timber
 
 
@@ -58,22 +60,48 @@ class GenreSelectFragment : Fragment(), GenreListAdapter.SelectedGenresCallback 
         btnSelectGenres.setOnClickListener {
             genreListAdapter.selectGenres()
 
-            lifecycleScope.launch {
-                viewModel.updateGenres(selectedGenreList)
-                delay(333)
-            }
-
+            var selectedGenreCount = 0
             val navArray: Array<DBGenre> = selectedGenreList.toTypedArray()
 
+            Timber.d("GenCountNA: ${navArray.size}")
+            lifecycleScope.launch {
+                delay(300)
+                val deferred = async {
+                    selectedGenreCount = genreCount(navArray)
+                    viewModel.updateGenres(selectedGenreList)
+                }
+                deferred.await()
+
+                navigateToGameScreen(selectedGenreCount, navArray)
+            }
+        }
+
+        return view
+    }
+
+    private fun navigateToGameScreen(
+        selectedGenreCount: Int,
+        navArray: Array<DBGenre>
+    ) {
+        if (selectedGenreCount != 0) {
+            Timber.d("GenCount: $selectedGenreCount")
             val action =
                 GenreSelectFragmentDirections.actionGenreSelectFragmentToGamesListFragment(
                     navArray
                 )
             findNavController().navigate(action)
-
+        } else {
+            Timber.d("GenCount: $selectedGenreCount")
+            Toast.makeText(
+                requireContext(),
+                "Please select at least one genre",
+                Toast.LENGTH_SHORT
+            ).show()
         }
+    }
 
-        return view
+    private fun genreCount(navArray: Array<DBGenre>): Int {
+        return navArray.count { it.isSelected }
     }
 
     private fun setupRecyclerView() {

@@ -30,7 +30,8 @@
         tools:layout="@layout/fragment_games_list" >
         <action
             android:id="@+id/action_gamesListFragment_to_gameDetailsFragment"
-            app:destination="@id/gameDetailsFragment" />
+            app:destination="@id/gameDetailsFragment"
+            app:popUpTo="@id/gamesListFragment" />
         <argument
             android:name="selectedGenre"
             app:argType="com.zvonimirplivelic.rawgsearch.db.DBGenre[]"

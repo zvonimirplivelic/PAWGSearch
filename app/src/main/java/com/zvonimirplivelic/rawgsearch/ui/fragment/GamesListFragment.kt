@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -44,11 +45,6 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
 
     private var queryString: String = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        hasOptionsMenu()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,7 +71,9 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
 
             withContext(Dispatchers.IO) {
                 delay(1000L)
-                viewModel.getGameList(API_KEY, queryString)
+                if(recyclerView.childCount == 0) {
+                    viewModel.getGameList(API_KEY, queryString)
+                }
             }
         }
 
