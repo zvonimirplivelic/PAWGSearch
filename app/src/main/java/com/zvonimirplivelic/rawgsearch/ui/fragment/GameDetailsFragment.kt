@@ -1,15 +1,18 @@
 package com.zvonimirplivelic.rawgsearch.ui.fragment
 
+import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
 import com.zvonimirplivelic.rawgsearch.R
+import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureHeight
+import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureWidth
 
 class GameDetailsFragment : Fragment() {
 
@@ -30,7 +33,10 @@ class GameDetailsFragment : Fragment() {
         val tvGameRating: TextView = view.findViewById(R.id.tv_game_rating_detail)
         val tvGameEsrbRating: TextView = view.findViewById(R.id.tv_esrb_rating_detail)
 
-        Picasso.get().load(selectedGame.background_image).into(ivGameCover)
+        Picasso.get().load(selectedGame.background_image).placeholder(R.drawable.ic_filter)
+            .resize(setPictureWidth(), setPictureHeight())
+            .centerCrop()
+            .noFade().into(ivGameCover)
         tvGameName.text = selectedGame.name
         tvGamePlaytime.text = selectedGame.playtime.toString()
         tvGameReleasedDate.text = selectedGame.released

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_margin="16dp"
-    android:backgroundTint="#C1A6A6"
+    android:backgroundTint="?colorPrimary"
     app:cardCornerRadius="32dp">
 
     <androidx.appcompat.widget.AppCompatCheckedTextView

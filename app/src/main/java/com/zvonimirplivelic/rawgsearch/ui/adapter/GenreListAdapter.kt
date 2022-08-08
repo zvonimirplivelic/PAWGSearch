@@ -84,7 +84,6 @@ class GenreListAdapter(
             selectedGenreList[position].isSelected = selectedGenre
         }
 
-        Timber.d("GenreSelection $selectedGenreList")
         handler.handleSelectedGenres(selectedGenreList)
     }
 

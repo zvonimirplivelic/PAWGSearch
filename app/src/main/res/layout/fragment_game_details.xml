@@ -10,7 +10,6 @@
         android:id="@+id/iv_game_cover_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:contentDescription="@string/iv_game_cover_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

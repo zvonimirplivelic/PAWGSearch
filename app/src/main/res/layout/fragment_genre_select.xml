@@ -18,8 +18,10 @@
     <Button
         android:id="@+id/btn_select_genres"
         android:layout_width="match_parent"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="?colorAccent"
         android:layout_height="48dp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_gray"
         android:layout_margin="16dp"
         android:text="@string/btn_select_genres_text"
         app:layout_constraintBottom_toBottomOf="parent"
