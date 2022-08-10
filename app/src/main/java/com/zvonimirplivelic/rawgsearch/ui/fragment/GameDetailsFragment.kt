@@ -1,21 +1,22 @@
 package com.zvonimirplivelic.rawgsearch.ui.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
 import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureHeight
 import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureWidth
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.util.*
-import kotlin.math.roundToInt
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class GameDetailsFragment : Fragment() {
 
@@ -48,13 +49,20 @@ class GameDetailsFragment : Fragment() {
             R.string.game_playtime_text_details, selectedGame.playtime
         )
         tvGameEsrbRating.text = resources.getString(R.string.game_ESRB_rating_text_details, selectedGame.esrb_rating?.name)
-        tvGameReleasedDate.text = resources.getString(R.string.game_release_date_text_details, selectedGame.released)
+        tvGameReleasedDate.text = resources.getString(R.string.game_release_date_text_details, convertDateFormat(selectedGame.released))
                 tvGameRating.text = resources.getString(R.string.game_rating_text_details,
-                    selectedGame.rating!!
+                    selectedGame.rating!!.toString().take(4)
                 )
 
 
         return view
+    }
+
+    private fun convertDateFormat(dateString: String?): String {
+        val day = dateString?.subSequence(8,10)
+        val month = dateString?.subSequence(5,7)
+        val year = dateString?.subSequence(0,4)
+        return "$day.$month.$year."
     }
 
 }

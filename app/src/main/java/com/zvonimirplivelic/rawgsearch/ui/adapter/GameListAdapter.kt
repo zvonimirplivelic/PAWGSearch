@@ -49,7 +49,7 @@ class GameListAdapter(
                 .into(ivGameCover)
 
             tvGameName.text = game.name
-            tvGameRating.text = game.rating.toString()
+            tvGameRating.text = resources.getString(R.string.game_rating_text_details, game.rating.toString())
         }
     }
 
