@@ -12,6 +12,10 @@ import com.squareup.picasso.Picasso
 import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureHeight
 import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureWidth
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.util.*
+import kotlin.math.roundToInt
 
 class GameDetailsFragment : Fragment() {
 
@@ -36,13 +40,21 @@ class GameDetailsFragment : Fragment() {
             .resize(setPictureWidth(), setPictureHeight())
             .centerCrop()
             .noFade().into(ivGameCover)
-        tvGameName.text = selectedGame.name
-        tvGamePlaytime.text = selectedGame.playtime.toString()
-        tvGameReleasedDate.text = selectedGame.released
-        tvGameRating.text = selectedGame.rating.toString()
-        tvGameEsrbRating.text = selectedGame.esrb_rating?.name
+
+        tvGameName.text = resources.getString(
+            R.string.game_name_text_details, selectedGame.name
+        )
+        tvGamePlaytime.text = resources.getString(
+            R.string.game_playtime_text_details, selectedGame.playtime
+        )
+        tvGameEsrbRating.text = resources.getString(R.string.game_ESRB_rating_text_details, selectedGame.esrb_rating?.name)
+        tvGameReleasedDate.text = resources.getString(R.string.game_release_date_text_details, selectedGame.released)
+                tvGameRating.text = resources.getString(R.string.game_rating_text_details,
+                    selectedGame.rating!!
+                )
 
 
         return view
     }
+
 }

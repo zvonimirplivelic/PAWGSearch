@@ -2,7 +2,14 @@
     <string name="app_name">RAWGSearch</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="btn_select_genres_text">Select genres</string>
+
+    <string name="game_name_text_details">Name: %s</string>
+    <string name="game_playtime_text_details">Playtime: %d hours</string>
+    <string name="game_ESRB_rating_text_details">ESRB rating: %s</string>
+    <string name="game_release_date_text_details">Release date: %s </string>
+    <string name="game_rating_text_details">Rating: %f / 5.0</string>
+
     <string name="iv_game_cover_description">Game cover image</string>
-    <string name="filter_icon_string">Filter games by genre</string>
+    <string name="filter_icon_description">Filter games by genre</string>
     <string name="fab_navigate_to_genre_select_description">Navigate to genre selection</string>
 </resources>

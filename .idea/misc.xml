@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/StudioProjects/RAWGSearch/app/src/main/res/layout/fragment_game_details.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/User/StudioProjects/RAWGSearch/app/src/main/res/layout/game_list_item.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/User/StudioProjects/RAWGSearch/app/src/main/res/layout/genre_list_item.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_filter.xml" value="0.167" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1578125" />
         <entry key="app/src/main/res/layout/fragment_game_details.xml" value="0.33229166666666665" />
