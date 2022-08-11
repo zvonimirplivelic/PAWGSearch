@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rawg_search_nav_graph"
-    app:startDestination="@id/genreSelectFragment">
+    app:startDestination="@id/gamesListFragment">
 
     <fragment
         android:id="@+id/genreSelectFragment"
@@ -30,10 +30,14 @@
         tools:layout="@layout/fragment_games_list" >
         <action
             android:id="@+id/action_gamesListFragment_to_gameDetailsFragment"
-            app:destination="@id/gameDetailsFragment" />
+            app:destination="@id/gameDetailsFragment"
+            app:popUpTo="@id/gamesListFragment" />
         <argument
             android:name="selectedGenre"
-            app:argType="com.zvonimirplivelic.rawgsearch.db.SelectedGenre[]"
+            app:argType="com.zvonimirplivelic.rawgsearch.db.DBGenre[]"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_gamesListFragment_to_genreSelectFragment"
+            app:destination="@id/genreSelectFragment" />
     </fragment>
 </navigation>

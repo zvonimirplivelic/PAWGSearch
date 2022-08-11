@@ -18,10 +18,14 @@
     <Button
         android:id="@+id/btn_select_genres"
         android:layout_width="match_parent"
-        android:backgroundTint="@color/purple_200"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/btn_select_genres_text"
+        android:backgroundTint="?colorAccent"
+        android:padding="4dp"
+        android:text="@string/btn_search_selected_genres_text"
+        android:textColor="@color/dark_gray"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

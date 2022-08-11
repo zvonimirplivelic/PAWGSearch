@@ -9,8 +9,8 @@
     <ImageView
         android:id="@+id/iv_game_cover_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/iv_game_cover_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +20,8 @@
         android:id="@+id/tv_game_name_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_game_cover_detail"
         tools:text="Game Name" />
@@ -28,6 +30,7 @@
         android:id="@+id/tv_game_playtime_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_game_name_detail"
         tools:text="Game Playtime" />
@@ -36,6 +39,7 @@
         android:id="@+id/tv_game_released_date_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_game_playtime_detail"
         tools:text="Game Release Date" />
@@ -44,6 +48,7 @@
         android:id="@+id/tv_game_rating_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_game_released_date_detail"
         tools:text="Game Rating" />
@@ -52,6 +57,7 @@
         android:id="@+id/tv_esrb_rating_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_game_rating_detail"
         tools:text="Game ESRB Rating" />

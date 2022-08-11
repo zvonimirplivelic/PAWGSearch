@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_margin="16dp"
-    android:backgroundTint="#C1A6A6"
+    android:backgroundTint="?colorPrimary"
     app:cardCornerRadius="32dp">
 
     <androidx.appcompat.widget.AppCompatCheckedTextView
@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="16dp"
-        android:checked="false"
         android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
         android:gravity="center|center_horizontal"
         android:textAlignment="center"

@@ -1,18 +1,20 @@
 package com.zvonimirplivelic.rawgsearch.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.ui.adapter.GameListAdapter
 import com.zvonimirplivelic.rawgsearch.util.Constants.API_KEY
@@ -20,7 +22,6 @@ import com.zvonimirplivelic.rawgsearch.util.Resource
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModel
 import com.zvonimirplivelic.rawgsearch.viewmodel.RAWGSearchViewModelFactory
 import kotlinx.coroutines.*
-import timber.log.Timber
 
 class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
 
@@ -36,6 +37,7 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var gameListAdapter: GameListAdapter
+    private lateinit var fabGenreSelect: FloatingActionButton
     private lateinit var progressBar: ProgressBar
 
     private var queryString: String = ""
@@ -48,20 +50,27 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
 
         recyclerView = view.findViewById(R.id.rv_game_list)
         progressBar = view.findViewById(R.id.progress_bar)
+        fabGenreSelect = view.findViewById(R.id.fab_navigate_to_genre_select)
 
         setupRecyclerView()
 
         lifecycleScope.launch {
             val deferred = async {
                 viewModel.selectedGenres.observe(viewLifecycleOwner) { genreList ->
-                    queryString = genreList.joinToString { it.slug }.replace(" ", "")
+                    if (genreList.isNullOrEmpty()) {
+                        findNavController().navigate(R.id.action_gamesListFragment_to_genreSelectFragment)
+                    } else {
+                        queryString = genreList.joinToString { it.slug }.replace(" ", "")
+                    }
                 }
             }
             deferred.await()
 
             withContext(Dispatchers.IO) {
                 delay(1000L)
-                viewModel.getGameList(API_KEY, queryString)
+                if(recyclerView.childCount == 0) {
+                    viewModel.getGameList(API_KEY, queryString)
+                }
             }
         }
 
@@ -88,6 +97,10 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
             }
         }
 
+        fabGenreSelect.setOnClickListener {
+            findNavController().navigate(R.id.action_gamesListFragment_to_genreSelectFragment)
+        }
+
         return view
     }
 
@@ -106,4 +119,5 @@ class GamesListFragment : Fragment(), GameListAdapter.OnItemClickListener {
             GamesListFragmentDirections.actionGamesListFragmentToGameDetailsFragment(selectedGame)
         requireView().findNavController().navigate(action)
     }
+
 }

@@ -1,11 +1,9 @@
 package com.zvonimirplivelic.rawgsearch.remote
 
-import androidx.lifecycle.LiveData
 import com.zvonimirplivelic.rawgsearch.remote.model.games.GameDataResponse
 import com.zvonimirplivelic.rawgsearch.remote.model.genre.GenreResponse
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RAWGSearchService {

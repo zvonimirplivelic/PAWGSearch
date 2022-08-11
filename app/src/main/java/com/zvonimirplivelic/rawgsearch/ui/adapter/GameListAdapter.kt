@@ -10,6 +10,8 @@ import com.squareup.picasso.Picasso
 import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.remote.model.games.GameListResult
 import com.zvonimirplivelic.rawgsearch.util.DiffUtilExtension.autoNotify
+import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureHeight
+import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureWidth
 import kotlin.properties.Delegates
 
 class GameListAdapter(
@@ -41,11 +43,13 @@ class GameListAdapter(
 
             Picasso.get()
                 .load(game.background_image)
-                .resize(256, 256)
+                .resize(setPictureWidth(), setPictureHeight())
+                .placeholder(R.drawable.ic_filter)
+                .centerCrop()
                 .into(ivGameCover)
 
             tvGameName.text = game.name
-            tvGameRating.text = game.rating.toString()
+            tvGameRating.text = resources.getString(R.string.game_rating_text_details, game.rating.toString())
         }
     }
 
@@ -56,7 +60,8 @@ class GameListAdapter(
         notifyDataSetChanged()
     }
 
-    inner class GameListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class GameListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
 
         init {
             itemView.setOnClickListener(this)
