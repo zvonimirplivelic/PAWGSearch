@@ -16,11 +16,11 @@ Tools used to build this application are:
   <li>Picasso - Image loading library</li>
 </ul>
 
-On first screen User is prompted to select at least one genre to proceed with game selection.
+When app is launched genre list is being fetched from the network and is stored in the database. On first screen User is prompted to select at least one genre to proceed with game selection. If user has selected genres before, his opening screen will show list of games from former genre selection.
 
 <img src="images/genre_list_screen.jpg" width="320">
 
-When selected user can pick the game from the list within selected genre('s).
+When genre is selected, user can pick the game from the list within selected genre('s). At bottom right corner of the list is a button which takes user back to genre selection screen.
 
 <img src="images/game_list_screen.jpg" width="320">
 
