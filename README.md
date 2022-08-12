@@ -17,13 +17,18 @@ Tools used to build this application are:
 </ul>
 
 When app is launched genre list is being fetched from the network and is stored in the database. On first screen the user is prompted to select at least one genre to proceed with game selection. If user has selected genres before, his opening screen will show list of games from former genre selection.
-
-<img src="images/genre_list_screen.jpg" width="320" margin-left="auto" margin-right="auto">
+<p align="center">
+  <img src="images/genre_list_screen.jpg" width="320">
+</p>
 
 When genre is selected, user can pick the game from the list within selected genre('s). At bottom right corner of the list is a button which takes user back to genre selection screen.
 
-<img src="images/game_list_screen.jpg" width="320">
+<p align="center">
+  <img src="images/game_list_screen.jpg" width="320">
+</p>
 
 If the game was selected, user can see the details of the game. Details contain image, title, playtime, release date, rating and ESRB rating.
 
-<img src="images/game_details_screen.jpg" width="320">
+<p align="center">
+  <img src="images/game_details_screen.jpg" width="320">
+</p>
