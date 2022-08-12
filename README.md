@@ -16,7 +16,7 @@ Tools used to build this application are:
   <li>Picasso - Image loading library</li>
 </ul>
 
-When app is launched genre list is being fetched from the network and is stored in the database. On first screen User is prompted to select at least one genre to proceed with game selection. If user has selected genres before, his opening screen will show list of games from former genre selection.
+When app is launched genre list is being fetched from the network and is stored in the database. On first screen the user is prompted to select at least one genre to proceed with game selection. If user has selected genres before, his opening screen will show list of games from former genre selection.
 
 <img src="images/genre_list_screen.jpg" width="320">
 
