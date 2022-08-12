@@ -1,22 +1,17 @@
 package com.zvonimirplivelic.rawgsearch.ui.fragment
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
 import com.zvonimirplivelic.rawgsearch.R
 import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureHeight
 import com.zvonimirplivelic.rawgsearch.util.ResizeImages.setPictureWidth
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class GameDetailsFragment : Fragment() {
 
@@ -37,7 +32,7 @@ class GameDetailsFragment : Fragment() {
         val tvGameRating: TextView = view.findViewById(R.id.tv_game_rating_detail)
         val tvGameEsrbRating: TextView = view.findViewById(R.id.tv_esrb_rating_detail)
 
-        Picasso.get().load(selectedGame.background_image).placeholder(R.drawable.ic_filter)
+        Picasso.get().load(selectedGame.background_image).placeholder(R.drawable.ic_launcher_foreground)
             .resize(setPictureWidth(), setPictureHeight())
             .centerCrop()
             .noFade().into(ivGameCover)
@@ -50,7 +45,7 @@ class GameDetailsFragment : Fragment() {
         )
         tvGameEsrbRating.text = resources.getString(R.string.game_ESRB_rating_text_details, selectedGame.esrb_rating?.name)
         tvGameReleasedDate.text = resources.getString(R.string.game_release_date_text_details, convertDateFormat(selectedGame.released))
-                tvGameRating.text = resources.getString(R.string.game_rating_text_details,
+        tvGameRating.text = resources.getString(R.string.game_rating_text_details,
                     selectedGame.rating!!.toString().take(4)
                 )
 

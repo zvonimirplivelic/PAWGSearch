@@ -44,7 +44,7 @@ class GameListAdapter(
             Picasso.get()
                 .load(game.background_image)
                 .resize(setPictureWidth(), setPictureHeight())
-                .placeholder(R.drawable.ic_filter)
+                .placeholder(R.drawable.ic_launcher_foreground)
                 .centerCrop()
                 .into(ivGameCover)
 
