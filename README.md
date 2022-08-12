@@ -1,7 +1,7 @@
 # RAWGSearch
 
 RAWG Search is an Android application writen with Kotlin. 
-User of this application can search through RAWG api which contains games on various platforms.
+User of this application can search through RAWG api which contains games on various gaming platforms.
 
 Tools used to build this application are:
 <ul>
@@ -12,7 +12,7 @@ Tools used to build this application are:
   <li>Retrofit - HTTP Client library</li>
   <li>Moshi - JSON Converting library</li>
   <li>OKHTTP Logging interceptor - Network request logging library</li>
-  <li>Kotlin Coroutines - Concurrency library</li>
+  <li>Kotlin Coroutines - Concurrency handling library</li>
   <li>Picasso - Image loading library</li>
 </ul>
 
